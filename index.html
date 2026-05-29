@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChurnAI — Predictive Customer Intelligence</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-icon">◈</span>
+      <span class="brand-name">ChurnAI</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-page="dashboard">
+        <span class="nav-icon">▦</span> Dashboard
+      </a>
+      <a href="#" class="nav-item" data-page="prediction">
+        <span class="nav-icon">◎</span> Churn Prediction
+      </a>
+      <a href="#" class="nav-item" data-page="segmentation">
+        <span class="nav-icon">◈</span> Segmentation
+      </a>
+      <a href="#" class="nav-item" data-page="retention">
+        <span class="nav-icon">◉</span> Retention Engine
+      </a>
+    </nav>
+    <div class="sidebar-industry">
+      <div class="industry-label">Industry Mode</div>
+      <select id="industrySelect" class="industry-select">
+        <option value="telecom">📡 Telecom</option>
+        <option value="saas">💻 SaaS</option>
+        <option value="gym">🏋️ Gym / Fitness</option>
+        <option value="subscription">📦 Subscription App</option>
+      </select>
+    </div>
+    <div class="sidebar-status">
+      <div class="status-dot"></div>
+      <span>Model Active</span>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main" id="main">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" id="menuBtn">☰</button>
+        <h1 class="page-title" id="pageTitle">Analytics Dashboard</h1>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-badge">
+          <span class="badge-dot pulse"></span>
+          Live Data
+        </div>
+        <div class="topbar-avatar">JD</div>
+      </div>
+    </header>
+
+    <!-- PAGES -->
+    <div class="pages">
+
+      <!-- ===== DASHBOARD PAGE ===== -->
+      <section class="page active" id="page-dashboard">
+        <div class="kpi-grid">
+          <div class="kpi-card danger">
+            <div class="kpi-label">Churn Rate</div>
+            <div class="kpi-value" id="kpiChurnRate">12.4%</div>
+            <div class="kpi-trend up">↑ 1.2% this month</div>
+          </div>
+          <div class="kpi-card warning">
+            <div class="kpi-label">At-Risk Customers</div>
+            <div class="kpi-value" id="kpiAtRisk">1,847</div>
+            <div class="kpi-trend up">↑ 234 new alerts</div>
+          </div>
+          <div class="kpi-card success">
+            <div class="kpi-label">Retention Rate</div>
+            <div class="kpi-value" id="kpiRetention">87.6%</div>
+            <div class="kpi-trend down">↓ 0.8% vs last month</div>
+          </div>
+          <div class="kpi-card info">
+            <div class="kpi-label">Revenue at Risk</div>
+            <div class="kpi-value" id="kpiRevenue">$284K</div>
+            <div class="kpi-trend up">↑ $42K forecast</div>
+          </div>
+        </div>
+
+        <div class="charts-row">
+          <div class="chart-card wide">
+            <div class="chart-header">
+              <h3>Churn Trend — 12 Months</h3>
+              <div class="chart-legend">
+                <span class="leg-dot red"></span>Churned
+                <span class="leg-dot green"></span>Retained
+              </div>
+            </div>
+            <canvas id="churnTrendChart" height="100"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header"><h3>Risk Distribution</h3></div>
+            <canvas id="riskDonutChart" height="160"></canvas>
+            <div class="donut-legend">
+              <span><span class="leg-dot red"></span>High Risk (18%)</span>
+              <span><span class="leg-dot orange"></span>Medium Risk (31%)</span>
+              <span><span class="leg-dot green"></span>Low Risk (51%)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-header">
+            <h3>Top At-Risk Customers</h3>
+            <button class="btn-outline" onclick="App.pages.retention()">Run Retention →</button>
+          </div>
+          <table class="data-table" id="atRiskTable">
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Segment</th>
+                <th>Tenure</th>
+                <th>Risk Score</th>
+                <th>Churn Probability</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="atRiskBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== PREDICTION PAGE ===== -->
+      <section class="page" id="page-prediction">
+        <div class="prediction-layout">
+          <div class="prediction-form-card">
+            <h2 class="section-title">Customer Churn Predictor</h2>
+            <p class="section-sub">Enter customer profile to get an instant AI-powered churn probability score.</p>
+
+            <div class="form-grid" id="predictionForm">
+              <!-- Injected by JS based on industry -->
+            </div>
+
+            <button class="btn-primary" id="predictBtn" onclick="App.predict()">
+              <span>Analyze Customer</span>
+              <span class="btn-arrow">→</span>
+            </button>
+          </div>
+
+          <div class="prediction-result-card" id="predictionResult">
+            <div class="result-idle">
+              <div class="result-icon">◎</div>
+              <p>Fill in the form to run prediction</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-importance-card">
+          <h3>Feature Importance — Model Explainability</h3>
+          <canvas id="featureChart" height="80"></canvas>
+        </div>
+      </section>
+
+      <!-- ===== SEGMENTATION PAGE ===== -->
+      <section class="page" id="page-segmentation">
+        <div class="seg-header">
+          <h2 class="section-title">Customer Segmentation</h2>
+          <button class="btn-primary" onclick="App.runSegmentation()">Re-cluster Segments</button>
+        </div>
+
+        <div class="segments-grid" id="segmentsGrid"></div>
+
+        <div class="charts-row">
+          <div class="chart-card wide">
+            <div class="chart-header"><h3>Segment Behavior Matrix</h3></div>
+            <canvas id="segmentRadar" height="120"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header"><h3>Segment Size</h3></div>
+            <canvas id="segmentPie" height="160"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== RETENTION PAGE ===== -->
+      <section class="page" id="page-retention">
+        <div class="retention-header">
+          <h2 class="section-title">Retention Recommendation Engine</h2>
+          <div class="retention-filters">
+            <select class="filter-select" id="retentionSegment">
+              <option value="all">All Segments</option>
+              <option value="high">High Risk</option>
+              <option value="medium">Medium Risk</option>
+            </select>
+            <button class="btn-primary" onclick="App.generateRetention()">Generate Campaigns</button>
+          </div>
+        </div>
+
+        <div class="retention-grid" id="retentionGrid"></div>
+
+        <div class="roi-card">
+          <h3>Projected Campaign ROI</h3>
+          <canvas id="roiChart" height="80"></canvas>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
