@@ -5,22 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ChurnAI — Predictive Customer Intelligence</title>
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-
-  <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
-  <!-- Global styles -->
+  <!-- Global -->
   <link rel="stylesheet" href="assets/css/global.css" />
 
-  <!-- Module styles (each module owns its CSS) -->
+  <!-- Module CSS (each module owns its own) -->
+  <link rel="stylesheet" href="modules/auth/auth.css" />
   <link rel="stylesheet" href="modules/dashboard/dashboard.css" />
   <link rel="stylesheet" href="modules/prediction/prediction.css" />
   <link rel="stylesheet" href="modules/segmentation/segmentation.css" />
   <link rel="stylesheet" href="modules/retention/retention.css" />
+  <link rel="stylesheet" href="modules/alerts/alerts.css" />
 </head>
 <body>
 
@@ -45,6 +44,9 @@
       </a>
       <a href="#" class="nav-item" data-page="retention">
         <span class="nav-icon">◉</span> Retention Engine
+      </a>
+      <a href="#" class="nav-item" data-page="alerts">
+        <span class="nav-icon">🔔</span> Live Alerts
       </a>
     </nav>
 
@@ -75,6 +77,7 @@
         <h1 class="page-title" id="pageTitle">Analytics Dashboard</h1>
       </div>
       <div class="topbar-right">
+        <!-- Role badge injected by auth module -->
         <div class="topbar-badge">
           <span class="badge-dot pulse"></span>Live Data
         </div>
@@ -83,35 +86,27 @@
     </header>
 
     <div class="pages">
-
       <!-- MODULE 1: DASHBOARD -->
-      <section class="page active" id="page-dashboard">
-        <!-- Injected by modules/dashboard/dashboard.js -->
-      </section>
-
+      <section class="page active" id="page-dashboard"></section>
       <!-- MODULE 2: PREDICTION -->
-      <section class="page" id="page-prediction">
-        <!-- Injected by modules/prediction/prediction.js -->
-      </section>
-
+      <section class="page" id="page-prediction"></section>
       <!-- MODULE 3: SEGMENTATION -->
-      <section class="page" id="page-segmentation">
-        <!-- Injected by modules/segmentation/segmentation.js -->
-      </section>
-
+      <section class="page" id="page-segmentation"></section>
       <!-- MODULE 4: RETENTION -->
-      <section class="page" id="page-retention">
-        <!-- Injected by modules/retention/retention.js -->
-      </section>
-
+      <section class="page" id="page-retention"></section>
+      <!-- MODULE 6: ALERTS -->
+      <section class="page" id="page-alerts"></section>
     </div>
   </main>
 
   <!-- ════════════════════════════════
-       SCRIPTS — load order matters
-       1. Core data & utilities first
-       2. Each module self-contained
-       3. App router boots last
+       SCRIPTS
+       Load order:
+       1. core/data.js       — data layer
+       2. core/charts.js     — chart factory
+       3. modules/*          — each self-registers
+       4. core/app.js        — router boots last
+       5. modules/auth/      — auth overlays after app
   ════════════════════════════════ -->
   <script src="core/data.js"></script>
   <script src="core/charts.js"></script>
@@ -119,7 +114,9 @@
   <script src="modules/prediction/prediction.js"></script>
   <script src="modules/segmentation/segmentation.js"></script>
   <script src="modules/retention/retention.js"></script>
+  <script src="modules/alerts/alerts.js"></script>
   <script src="core/app.js"></script>
+  <script src="modules/auth/auth.js"></script>
 
 </body>
 </html>
