@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChurnAI — Predictive Customer Intelligence</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- Global styles -->
+  <link rel="stylesheet" href="assets/css/global.css" />
+
+  <!-- Module styles (each module owns its CSS) -->
+  <link rel="stylesheet" href="modules/dashboard/dashboard.css" />
+  <link rel="stylesheet" href="modules/prediction/prediction.css" />
+  <link rel="stylesheet" href="modules/segmentation/segmentation.css" />
+  <link rel="stylesheet" href="modules/retention/retention.css" />
+</head>
+<body>
+
+  <!-- ════════════════════════════════
+       SIDEBAR
+  ════════════════════════════════ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-icon">◈</span>
+      <span class="brand-name">ChurnAI</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-page="dashboard">
+        <span class="nav-icon">▦</span> Dashboard
+      </a>
+      <a href="#" class="nav-item" data-page="prediction">
+        <span class="nav-icon">◎</span> Churn Prediction
+      </a>
+      <a href="#" class="nav-item" data-page="segmentation">
+        <span class="nav-icon">◈</span> Segmentation
+      </a>
+      <a href="#" class="nav-item" data-page="retention">
+        <span class="nav-icon">◉</span> Retention Engine
+      </a>
+    </nav>
+
+    <div class="sidebar-industry">
+      <div class="industry-label">Industry Mode</div>
+      <select id="industrySelect" class="industry-select">
+        <option value="telecom">📡 Telecom</option>
+        <option value="saas">💻 SaaS</option>
+        <option value="gym">🏋️ Gym / Fitness</option>
+        <option value="subscription">📦 Subscription App</option>
+      </select>
+    </div>
+
+    <div class="sidebar-status">
+      <div class="status-dot"></div>
+      <span>Model Active</span>
+    </div>
+  </aside>
+
+  <!-- ════════════════════════════════
+       MAIN
+  ════════════════════════════════ -->
+  <main class="main" id="main">
+
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" id="menuBtn">☰</button>
+        <h1 class="page-title" id="pageTitle">Analytics Dashboard</h1>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-badge">
+          <span class="badge-dot pulse"></span>Live Data
+        </div>
+        <div class="topbar-avatar">JD</div>
+      </div>
+    </header>
+
+    <div class="pages">
+
+      <!-- MODULE 1: DASHBOARD -->
+      <section class="page active" id="page-dashboard">
+        <!-- Injected by modules/dashboard/dashboard.js -->
+      </section>
+
+      <!-- MODULE 2: PREDICTION -->
+      <section class="page" id="page-prediction">
+        <!-- Injected by modules/prediction/prediction.js -->
+      </section>
+
+      <!-- MODULE 3: SEGMENTATION -->
+      <section class="page" id="page-segmentation">
+        <!-- Injected by modules/segmentation/segmentation.js -->
+      </section>
+
+      <!-- MODULE 4: RETENTION -->
+      <section class="page" id="page-retention">
+        <!-- Injected by modules/retention/retention.js -->
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ════════════════════════════════
+       SCRIPTS — load order matters
+       1. Core data & utilities first
+       2. Each module self-contained
+       3. App router boots last
+  ════════════════════════════════ -->
+  <script src="core/data.js"></script>
+  <script src="core/charts.js"></script>
+  <script src="modules/dashboard/dashboard.js"></script>
+  <script src="modules/prediction/prediction.js"></script>
+  <script src="modules/segmentation/segmentation.js"></script>
+  <script src="modules/retention/retention.js"></script>
+  <script src="core/app.js"></script>
+
+</body>
+</html>
